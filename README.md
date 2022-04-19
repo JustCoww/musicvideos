@@ -5,7 +5,7 @@ Various scritps from justcow.
 
 # Install
 ```sh
-pip install musicvideo
+pip install musicvideos
 ```
 
 
