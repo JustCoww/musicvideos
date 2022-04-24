@@ -1,6 +1,6 @@
-# Slowed Videos Scripts
+# Music Videos Scripts
 
-Various scritps from justcow.
+Old slowedvideos now musicvideos, Various scripts from justcow.
 
 
 # Install
@@ -36,70 +36,49 @@ Just install ffmpeg and make it availabe in your **PATH**.
 
 **Downloading audio from soundcloud**
 ```python
-from slowedvideos.audio import downloadurl
+from musicvideos.tools import download_audio
 
-# Variables
-url = 'https://soundcloud.com/100gecs/gecgecgec'
-output = 'downloaded' # It will download as .wav 
-
-downloadurl(url, output)
+download_audio('https://soundcloud.com/100gecs/gecgecgec', outFile='gecgecgec.wav')
 ```
 https://soundcloud.com/100gecs/gecgecgec
 
 
-**Slowing and adding reverb to the downloaded audio**
+**Making the audio faster and adding reverb**
 ```python
-from slowedvideos.audio import makeslowed
+from musicvideos.audio import AudioMod
 
-# Variables
-audio = 'downloaded.wav'
-speed = 10 # This changes how slow the audio will be
-output = 'slowed gecgecgec.wav'
-
-makeslowed(audio, speed, output)
+aud = AudioMod(audioFile='gecgecgec.wav')
+aud.speed(7)
+aud.reverb(dry=0, wet=100)
+aud.write(outFile='gecgecgec but faster and with reverb.wav')
 ```
-https://soundcloud.com/justcoww/slowed-gecgecgec
+https://youtu.be/xjBq9D4kLDE
 
 
 **Creating the video image**
 ```python
-from slowedvideos.video import makevideo
+from musicvideos.video import VideoIMG
 
-# Variables
-cover = 'cover.jpg'
-song = 'gecgecgec'
-artist = '100 gecs'
-toptext = '(Slowed + Reverb)'
-video_output = 'video gecgecgec.png'
-
-makevideo(cover, song, artist, toptext, video_output)
+vid = VideoIMG(coverFile='gec.jpg')
+vid.video(toptext='(Sloowed + Reeeverb)', song='gecgecgec', artist='100 gecs')
 ```
-![video gecgecgec](https://user-images.githubusercontent.com/68345611/158889345-75f4ec35-63e9-4c61-a307-f4332401f743.png)
+![video](https://user-images.githubusercontent.com/68345611/164984378-fb88442a-4115-4119-9873-958923d93942.png)
 
 
 **Creating the thumbnail image**
 ```python
-from slowedvideos.video import makethumb
+from musicvideos.video import VideoIMG
 
-# Variables
-cover = 'cover.jpg'
-thumb_output = 'thumb gecgecgec.png'
-
-makethumb(cover, thumb_output)
+vid = VideoIMG(coverFile='gec.jpg')
+vid.thumbnail()
 ```
-![thumb gecgecgec](https://user-images.githubusercontent.com/68345611/158889421-41a81372-a2af-453e-9075-99991964b8dd.png)
+![thumbnail](https://user-images.githubusercontent.com/68345611/164984372-e5c687b0-fab3-41c7-ae52-fc0e9d1959e4.png)
 
 
 **Exporting the video**
 ```python
-from slowedvideos.video import exportvideo
+from musicvideos.tools import export
 
-# Variables
-audio = 'slowed gecgecgec.wav'
-image = 'video gecgecgec.png'
-output = 'videofile gecgecgec.mp4'
-mode = 'moviepy'
-
-exportvideo(audio, image, mode, output)
+export(image='video.png', audio='gecgecgec but faster and with reverb.wav')
 ```
-https://user-images.githubusercontent.com/68345611/158889533-050e7a14-7a11-4cee-8437-c6c9e9c77334.mp4
+https://user-images.githubusercontent.com/68345611/164984364-eb57af53-148f-4949-9747-81561cf8f7c2.mp4
