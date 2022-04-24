@@ -34,7 +34,8 @@ class PublishVideo:
         if wet > 0:
             self.effects.append('Reverb')
 
-    def info(self, artist='artist', song='song', toptext=None):
+    def info(self, artist='artist', song='song', toptext=None, features=None):
+        self.features = features
         self.artist = artist
         self.song = song
         self.videofile = f'videofile {self.song}.mp4'
@@ -79,8 +80,10 @@ class PublishVideo:
         if self.cover_download:
             self.cover = download_cover(self.cover, outFile='cover.png')
 
-        self.youtube_variables = yt_variables(effects=self.effects, artist=self.artist, song=self.song)
-
+        if self.features is None:
+            self.youtube_variables = yt_variables(effects=self.effects, artist=self.artist, song=self.song)
+        else:
+            self.youtube_variables = yt_variables(effects=self.effects, artist=self.artist, song=self.song, features=self.features)
 
         vid = VideoIMG(coverFile=self.cover)
         vid.video(toptext=self.toptext, song=self.song, artist=self.artist, outFile=self.videoimgfile)
