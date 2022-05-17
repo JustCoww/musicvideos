@@ -105,8 +105,8 @@ class PublishVideo:
         exportvideo(image=self.videoimgfile, audio=self.audiofile, outFile=self.videofile)
 
         if compress_files:
-            compress(self.audio)
-            compress(self.audiofile)
+            compress_file(self.audio)
+            compress_file(self.audiofile)
 
         chdir(self.starting_directory)
 
