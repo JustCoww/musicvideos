@@ -1,5 +1,5 @@
 from musicvideos.tools import yt_variables, download_audio, download_image, check_if_url, exportvideo, compress_file
-from musicvideos.video import VideoImages
+from musicvideos.images import VideoImages
 from musicvideos.audio import Audio
 from musicvideos.youtube import upload
 
