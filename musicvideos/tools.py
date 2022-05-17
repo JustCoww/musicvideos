@@ -77,7 +77,7 @@ def download_image(url, output='downloaded_cover.png'):
     else:
         print(prefix, 'Cover could not be downloaded.')
 
-def yt_variables(effects=[], artist='artist', song='song', channel='justcow', features=None):
+def yt_variables(effects=[], artist='artist', song='song', channel='justcow', features=None, url=None):
     '''
     This function doesn't really serve much purpose other than
     creating the youtube video variables like "title, description, tags and features"
@@ -86,9 +86,6 @@ def yt_variables(effects=[], artist='artist', song='song', channel='justcow', fe
 
     channel = 'justcow'
     tags = [artist, channel, song]
-    if features is not None:
-        for i in features:
-            tags.append(i)
     if len(effects) > 1:
         effects_plus = f'({effects[0]} + {effects[1]})'
         effects_and = f'({effects[0]} and {effects[1]})'
@@ -99,7 +96,13 @@ def yt_variables(effects=[], artist='artist', song='song', channel='justcow', fe
         effects_and = f'({effects[0]})'
         tags.append(f'{effects[0]} {song}')
     title = f'{artist} - {song} {effects_plus}'
-    description = f'{song} {effects_and} \n\n {artist}'
+    description = f'{song} {effects_and} \n\n{artist}'
+    if url is not None:
+        description = f'{song} {effects_and} \n{url} \n\n{artist} '
+    if features is not None:
+        for i in features:
+            tags.append(i)
+            description += f'\n{i}'
     return [title, description, tags]
 
 def compress_file(audio):
