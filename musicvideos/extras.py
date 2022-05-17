@@ -1,16 +1,17 @@
-from musicvideos.tools import yt_variables, download_audio, download_cover, check_if_url, export, compress_file
-from musicvideos.video import VideoIMG
-from musicvideos.audio import AudioMod
+from musicvideos.tools import yt_variables, download_audio, download_cover, check_if_url, exportvideo, compress_file
+from musicvideos.video import VideoImages
+from musicvideos.audio import Audio
 from musicvideos.youtube import upload
 
 from os import mkdir, chdir, getcwd
+from shutil import copyfile
 
 class PublishVideo:
     def __init__(self):
         self.effects = []
 
     def files(self, audio=None, cover=None):
-
+        
         if check_if_url(audio):
             self.audio_download = True
         else:
@@ -58,7 +59,7 @@ class PublishVideo:
             self.audiofile = f'pagman? {self.song}.wav'
             self.folder = f'pagman? {self.song}'
 
-    def make(self, compress_files=False, upload_yt=None, secrets_folder=None, client_secrets=None):
+    def make(self, compress_files=False):
 
         new_folder = False
         self.starting_directory = getcwd()
@@ -72,33 +73,40 @@ class PublishVideo:
                 chdir(self.folder)
 
         self.files_directory = getcwd()
-
+        
         if self.audio_download:
+            url = self.audio
             self.audio = download_audio(self.audio, output='original.wav')
-            print(self.audio)
+        else:
+            url = None
+            copyfile(self.audio, f'{self.files_directory}/original.wav')
+            self.audio =  f'{self.files_directory}/original.wav'
 
         if self.cover_download:
             self.cover = download_cover(self.cover, output='cover.png')
+        else:
+            copyfile(self.cover, f'{self.files_directory}/cover.png')
+            self.cover =  f'{self.files_directory}/cover.png'
 
         if self.features is None:
-            self.youtube_variables = yt_variables(effects=self.effects, artist=self.artist, song=self.song)
+            self.youtube_variables = yt_variables(effects=self.effects, artist=self.artist, song=self.song, url=url)
         else:
-            self.youtube_variables = yt_variables(effects=self.effects, artist=self.artist, song=self.song, features=self.features)
+            self.youtube_variables = yt_variables(effects=self.effects, artist=self.artist, song=self.song, url=url,features=self.features)
 
-        vid = VideoImage(cover=self.cover)
-        vid.main(toptext=self.toptext, song=self.song, artist=self.artist, outFile=self.videoimgfile)
+        vid = VideoImages(cover=self.cover)
+        vid.main(toptext=self.toptext, song=self.song, artist=self.artist, output=self.videoimgfile)
         vid.thumbnail(output=self.thumbfile)
 
-        aud = Audio(self.audio)
+        aud = Audio(audio=self.audio)
         aud.speed(self.speed)
         aud.reverb(dry=self.reverb[0], wet=self.reverb[1])
         aud.export(self.audiofile)
 
-        export(image=self.videoimgfile, audio=self.audiofile, output=self.videofile)
+        exportvideo(image=self.videoimgfile, audio=self.audiofile, outFile=self.videofile)
 
         if compress_files:
-            compress_file(self.audio)
-            compress_file(self.audiofile)
+            compress(self.audio)
+            compress(self.audiofile)
 
         chdir(self.starting_directory)
 
@@ -107,10 +115,11 @@ class PublishVideo:
         if '/' in client_secrets:
             slash_location = client_secrets.rfind('/')
             chdir(client_secrets[:slash_location])
-        upload(client_secrets=client_secrets, video_file=f'{self.files_directory}/{self.videofile}', thumbnail=f'{self.files_directory}/{self.thumbfile}', category='10',
+            client_secrets = client_secrets[slash_location+1:]
+        upload(client_secrets=client_secrets, video_file=f'{self.files_directory}/{self.videofile}', thumbnail=f'{self.files_directory}/{self.thumbfile}', category='10', 
                 title=self.youtube_variables[0], description=self.youtube_variables[1], tags=self.youtube_variables[2])
         chdir(self.starting_directory)
-
+        
 '''
 
 Exemple:
