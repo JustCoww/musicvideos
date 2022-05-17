@@ -1,4 +1,4 @@
-from musicvideos.tools import yt_variables, download_audio, download_cover, check_if_url, exportvideo, compress_file
+from musicvideos.tools import yt_variables, download_audio, download_image, check_if_url, exportvideo, compress_file
 from musicvideos.video import VideoImages
 from musicvideos.audio import Audio
 from musicvideos.youtube import upload
@@ -83,7 +83,7 @@ class PublishVideo:
             self.audio =  f'{self.files_directory}/original.wav'
 
         if self.cover_download:
-            self.cover = download_cover(self.cover, output='cover.png')
+            self.cover = download_image(self.cover, output='cover.png')
         else:
             copyfile(self.cover, f'{self.files_directory}/cover.png')
             self.cover =  f'{self.files_directory}/cover.png'
