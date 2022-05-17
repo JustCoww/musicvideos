@@ -6,15 +6,15 @@ from pathlib import Path
 import logging
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO, format='| %(levelname)s | %(name)s | %(message)s')
+logging.basicConfig(level=logging.INFO, format='\033[92;1m| INFO | \033[0m%(message)s')
 
-class AudioMod:
-    def __init__(self, audioFile=None):
-        if audioFile is None:
+class Audio:
+    def __init__(self, audio):
+        if audio is None:
             logger.error(f'Audio file not defined in the AudioMod class...')
             return
-        self.audio = audioFile
-        self.file, self.sample_rate = read(audioFile)
+        self.audio = audio
+        self.file, self.sample_rate = read(audio)
         self.modified = self.file
 
     def speed(self, speed):
@@ -28,7 +28,7 @@ class AudioMod:
         logger.info(f'Changing the speed to "{speed}"...')
         self.sample_rate += int((speed / 25) * self.sample_rate)
 
-    def reverb(self, dry=80, wet=25):
+    def reverb(self, dry=60, wet=25):
         '''
         This function will add reverb
         to the class defined audio file
@@ -50,16 +50,16 @@ class AudioMod:
         vst.wet = wet
         self.modified = vst(self.file, self.sample_rate)
 
-    def write(self, outFile):
+    def export(self, output):
         '''
         This function will write the
-        changes to the function defined 
-        file (outFile)
+        changes to the function defined
+        file (output)
         '''
 
-        logger.info(f'Writing the changes to "{outFile}"...')
-        write(outFile, self.modified, self.sample_rate)
-        
+        logger.info(f'Writing the changes to "{output}"...')
+        write(output, self.modified, self.sample_rate)
+
 '''
 
 Examples:

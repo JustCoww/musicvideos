@@ -12,15 +12,15 @@ from googleapiclient.http import MediaFileUpload
 from oauth2client.tools import run_flow
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO, format='| %(levelname)s | %(name)s | %(message)s')
+logging.basicConfig(level=logging.INFO, format='\033[92;1m| INFO | \033[0m%(message)s')
 
 def upload(client_secrets=None, video_file=None, thumbnail=None, visibility='private',
             category='10', title='video title', description='video description', tags=[]):
 
     '''
     This function will upload a video to youtube,
-    requires client_secrets.json file. 
-    If you do not have one, you can 
+    requires client_secrets.json file.
+    If you do not have one, you can
     create an application in https://console.cloud.google.com/apis/dashboard
     and then download the client_secrets.json
     '''
@@ -29,7 +29,7 @@ def upload(client_secrets=None, video_file=None, thumbnail=None, visibility='pri
 
     api_service_name = "youtube"
     api_version = "v3"
-    
+
     logger.debug('Checking arguments...')
     variables = [('client_secrets', client_secrets), ('video_file', video_file)]
     for i in variables:
@@ -62,15 +62,15 @@ def upload(client_secrets=None, video_file=None, thumbnail=None, visibility='pri
                 "description": description,
                 "tags": tags,
                 "categoryId": category,
-            
+
             },
-            
+
             "status": {
                 "privacyStatus": visibility
           }
 
         }
-        
+
     )
 
     logger.info('Sending video insert request...')
@@ -90,7 +90,7 @@ def upload(client_secrets=None, video_file=None, thumbnail=None, visibility='pri
 
 Exemple:
 
-upload(client_secrets='client_secrets.json', video_file='video.mp4', thumbnail='thumbnail.png', category='10', 
+upload(client_secrets='client_secrets.json', video_file='video.mp4', thumbnail='thumbnail.png', category='10',
                 title='gec', description='crazy description', tags=['t','a','g','s'])
 
 '''

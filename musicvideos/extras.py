@@ -1,4 +1,4 @@
-from musicvideos.tools import yt_variables, download_audio, download_cover, check_if_url, export, compress
+from musicvideos.tools import yt_variables, download_audio, download_cover, check_if_url, export, compress_file
 from musicvideos.video import VideoIMG
 from musicvideos.audio import AudioMod
 from musicvideos.youtube import upload
@@ -10,7 +10,7 @@ class PublishVideo:
         self.effects = []
 
     def files(self, audio=None, cover=None):
-        
+
         if check_if_url(audio):
             self.audio_download = True
         else:
@@ -72,33 +72,33 @@ class PublishVideo:
                 chdir(self.folder)
 
         self.files_directory = getcwd()
-        
+
         if self.audio_download:
-            self.audio = download_audio(self.audio, outFile='original.wav')
+            self.audio = download_audio(self.audio, output='original.wav')
             print(self.audio)
 
         if self.cover_download:
-            self.cover = download_cover(self.cover, outFile='cover.png')
+            self.cover = download_cover(self.cover, output='cover.png')
 
         if self.features is None:
             self.youtube_variables = yt_variables(effects=self.effects, artist=self.artist, song=self.song)
         else:
             self.youtube_variables = yt_variables(effects=self.effects, artist=self.artist, song=self.song, features=self.features)
 
-        vid = VideoIMG(coverFile=self.cover)
-        vid.video(toptext=self.toptext, song=self.song, artist=self.artist, outFile=self.videoimgfile)
-        vid.thumbnail(outFile=self.thumbfile)
+        vid = VideoImage(cover=self.cover)
+        vid.main(toptext=self.toptext, song=self.song, artist=self.artist, outFile=self.videoimgfile)
+        vid.thumbnail(output=self.thumbfile)
 
-        aud = AudioMod(audioFile=self.audio)
+        aud = Audio(self.audio)
         aud.speed(self.speed)
         aud.reverb(dry=self.reverb[0], wet=self.reverb[1])
-        aud.write(self.audiofile)
+        aud.export(self.audiofile)
 
-        export(image=self.videoimgfile, audio=self.audiofile, outFile=self.videofile)
+        export(image=self.videoimgfile, audio=self.audiofile, output=self.videofile)
 
         if compress_files:
-            compress(self.audio)
-            compress(self.audiofile)
+            compress_file(self.audio)
+            compress_file(self.audiofile)
 
         chdir(self.starting_directory)
 
@@ -107,10 +107,10 @@ class PublishVideo:
         if '/' in client_secrets:
             slash_location = client_secrets.rfind('/')
             chdir(client_secrets[:slash_location])
-        upload(client_secrets=client_secrets, video_file=f'{self.files_directory}/{self.videofile}', thumbnail=f'{self.files_directory}/{self.thumbfile}', category='10', 
+        upload(client_secrets=client_secrets, video_file=f'{self.files_directory}/{self.videofile}', thumbnail=f'{self.files_directory}/{self.thumbfile}', category='10',
                 title=self.youtube_variables[0], description=self.youtube_variables[1], tags=self.youtube_variables[2])
         chdir(self.starting_directory)
-        
+
 '''
 
 Exemple:
