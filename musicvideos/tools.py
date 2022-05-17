@@ -39,7 +39,6 @@ def exportvideo(image=None, audio=None, output='video.mp4'):
     video.fps = 1
     logger.info(f'Exporting video to "{output}"...')
     video.write_videofile(output)
-    
     return output
 
 def check_if_url(arg):
@@ -61,7 +60,6 @@ def download_audio(url, output='downloaded_audio.wav'):
 
     ytdl_opts = { 'format': 'bestaudio/best', 'outtmpl':output, 'postprocessors':[{'key': 'FFmpegExtractAudio','preferredcodec': 'wav'}] }
     YoutubeDL(ytdl_opts).download([url])
-    
     return output
 
 def download_image(url, output='downloaded_cover.png'):
@@ -80,7 +78,6 @@ def download_image(url, output='downloaded_cover.png'):
         print(f'Cover sucessfully downloaded: {output}')
     else:
         print(prefix, 'Cover could not be downloaded.')
-        
     return output
 
 def yt_variables(effects=[], artist='artist', song='song', channel='justcow', features=None, url=None):
