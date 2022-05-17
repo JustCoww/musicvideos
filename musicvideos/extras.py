@@ -77,6 +77,7 @@ class PublishVideo:
         if self.audio_download:
             url = self.audio
             self.audio = download_audio(self.audio, output='original.wav')
+            self.audio = 'original.wav'
         else:
             url = None
             copyfile(self.audio, f'{self.files_directory}/original.wav')
@@ -84,6 +85,7 @@ class PublishVideo:
 
         if self.cover_download:
             self.cover = download_image(self.cover, output='cover.png')
+            self.cover = 'cover.png'
         else:
             copyfile(self.cover, f'{self.files_directory}/cover.png')
             self.cover =  f'{self.files_directory}/cover.png'
