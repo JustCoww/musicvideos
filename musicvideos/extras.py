@@ -104,7 +104,7 @@ class PublishVideo:
         aud.reverb(dry=self.reverb[0], wet=self.reverb[1])
         aud.export(self.audiofile)
 
-        exportvideo(image=self.videoimgfile, audio=self.audiofile, outFile=self.videofile)
+        exportvideo(image=self.videoimgfile, audio=self.audiofile, output=self.videofile)
 
         if compress_files:
             compress_file(self.audio)
