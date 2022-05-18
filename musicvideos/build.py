@@ -67,7 +67,7 @@ class BuildVideo:
         }
 
         # Save original directory
-        self.orig_dir = os.path.dirname(__file__)
+        self.orig_dir = os.getcwd()
 
         # Artists separation
         if ',' in artists:
