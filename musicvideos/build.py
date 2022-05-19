@@ -168,9 +168,11 @@ class BuildVideo:
 
         # Download audio if it is a link otherwise copy it to the folder
         if check_if_url(audio):
+            self.url = audio
             download_audio(audio, output=self.files['download_audio'])
             self.audio = self.files['download_audio']
         else:
+            self.url = ''
             os.chdir(self.orig_dir)
             shutil.copyfile(audio,
                         f'{self.files["full_folder"]}/{self.files["download_audio"]}')
@@ -210,7 +212,7 @@ class BuildVideo:
                 f'{self.reverb_text.lower()} {self.song}',
                 f'{self.speed_text.lower()} {self.reverb_text} {self.song}']
         title = f'{self.artists[0]} - {self.song} {self.toptext_plus}'
-        description = f'{self.song} {self.toptext_and} \n\n'
+        description = f'{self.song} {self.toptext_and} \n{self.url}\n'
         for i in self.artists:
             tags.append(i)
             description += f'{i}\n'
