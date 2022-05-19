@@ -40,7 +40,14 @@ import shutil
 import os
 
 class BuildVideo:
-    def __init__(self, song='', artists='', cover=None, audio=None, speed=0, reverb=0):
+    def __init__(self,
+                song='',
+                artists='',
+                cover=None,
+                audio=None,
+                speed=0,
+                reverb=0,
+                remove_toptext=False):
         '''
         This function will setup everything
         for the video images, audio and export to
@@ -124,6 +131,9 @@ class BuildVideo:
                 toptext_and = ' and '.join(toptext_components)
                 self.toptext_and = f'({toptext_and})'
             else:
+                self.toptext_plus = ''
+                self.toptext_and = ''
+            if remove_toptext:
                 self.toptext_plus = ''
                 self.toptext_and = ''
         except:
