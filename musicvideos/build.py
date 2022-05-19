@@ -231,7 +231,7 @@ class BuildVideo:
 
     def finish(self, compress=True):
         if compress:
-            compress_file(self.files['mod_audio'])
-            compress_file(self.files['download_audio'])
+            compress_file(f'{self.files["full_folder"]}/{self.files["mod_audio"]}')
+            compress_file(f'{self.files["full_folder"]}/{self.files["download_audio"]}')
         os.chdir(self.orig_dir)
         print('\033[92m✔ Finished\033[0m')
