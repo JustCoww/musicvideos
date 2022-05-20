@@ -77,7 +77,7 @@ vid.thumbnail()
 
 **Exporting the video**
 ```python
-from musicvideos.tools import exportvideo
+from musicvideos.video import exportvideo
 
 exportvideo(image='video.png', audio='gecgecgec but faster and with reverb.wav')
 ```
