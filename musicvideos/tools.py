@@ -1,8 +1,8 @@
 
-from moviepy.editor import AudioFileClip, ImageClip
-from yt_dlp import YoutubeDL
-from os import system, remove, chdir
+import os
 import logging
+from yt_dlp import YoutubeDL
+from moviepy.editor import AudioFileClip, ImageClip
 
 from musicvideos.youtube import upload
 
@@ -115,8 +115,8 @@ def compress_file(audio):
     the original .wav file
     '''
 
-    system(f'ffmpeg -i "{audio}" -vn -ar 44100 -ac 2 -b:a 320k "{audio.replace(".wav", ".mp3")}"')
-    remove(audio)
+    os.system(f'ffmpeg -i "{audio}" -vn -ar 44100 -ac 2 -b:a 320k "{audio.replace(".wav", ".mp3")}"')
+    os.remove(audio)
 
 
 def convert(audio, output):
