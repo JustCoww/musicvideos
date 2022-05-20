@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.9.9'
+VERSION = '1.0.0'
 DESCRIPTION = 'Old slowedvideos now musicvideos, Various scripts from justcow.'
 
 # Setting up
