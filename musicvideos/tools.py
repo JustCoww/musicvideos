@@ -119,13 +119,13 @@ def compress_file(audio):
     remove(audio)
 
 
-def convert(audio):
+def convert(audio, output):
     '''
     This function will get a file
     and convert it to wav, then it will delete
     the original file
     '''
 
-    os.system(f'ffmpeg -i "{audio}" "{audio_in_wav}"')
+    os.system(f'ffmpeg -i "{audio}" "{output}"')
     os.remove(audio)
     
