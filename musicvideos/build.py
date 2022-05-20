@@ -172,11 +172,12 @@ class BuildVideo:
             os.chdir(self.orig_dir)
             dot_location = audio.rfind('.')
             audio_extension = audio[dot_location:]
-            shutil.copyfile(audio,
-                        f'{self.files["full_folder"]}/{self.files["download_audio"]}')
-            os.chdir(self.files['full_folder'])
+            audio_file_in_folder = f'{self.files["full_folder"]}/{self.files["download_audio"]}'
             if audio_extension != '.wav':
-                tools.convert(audio, self.files['download_audio'])
+                tools.convert(audio, audio_file_in_folder)
+            else:
+                shutil.copyfile(audio, audio_file_in_folder)
+            os.chdir(self.files['full_folder'])
             self.audio = self.files['download_audio']
             
 
