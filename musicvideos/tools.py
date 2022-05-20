@@ -117,3 +117,18 @@ def compress_file(audio):
 
     system(f'ffmpeg -i "{audio}" -vn -ar 44100 -ac 2 -b:a 320k "{audio.replace(".wav", ".mp3")}"')
     remove(audio)
+
+
+def convert_to_wav(audio):
+    '''
+    This function will get a file
+    and convert it to wav, then it will delete
+    the original file
+    '''
+
+    dot_location = audio.rfind('.')
+    audio_extension = audio[dot_location:]
+    if audio_extension == '.wav': return
+    audio_in_wav = audio_extension.replace(audio_extension, '.wav')
+    os.system(f'ffmpeg -i "{audio}" -vn -ar 44100 -ac 2 -b:a 320k "{audio_in_wav}"')
+    os.remove(audio)
