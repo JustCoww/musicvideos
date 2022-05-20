@@ -1,3 +1,4 @@
+from moviepy.editor import AudioFileClip, ImageClip
 def exportvideo(image=None, audio=None, output='video.mp4'):
     '''
     This function will create a video
