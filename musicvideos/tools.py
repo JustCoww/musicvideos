@@ -126,10 +126,6 @@ def convert_to_wav(audio):
     the original file
     '''
 
-    dot_location = audio.rfind('.')
-    audio_extension = audio[dot_location:]
-    if audio_extension == '.wav': return
-    audio_in_wav = audio_extension.replace(audio_extension, '.wav')
     os.system(f'ffmpeg -i "{audio}" "{audio_in_wav}"')
     os.remove(audio)
     
