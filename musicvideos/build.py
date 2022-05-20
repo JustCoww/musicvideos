@@ -176,8 +176,10 @@ class BuildVideo:
             self.audio = self.files['download_audio']
             dot_location = self.audio.rfind('.')
             audio_extension = self.audio[dot_location:]
+            audio_without_extension = self.audio[:dot_location]
             if audio_extension != '.wav':
                 tools.convert_to_wav(self.audio)
+                self.audio = audio_without_extension + '.wav'
 
 
     def custom_toptext(self, text):
