@@ -30,11 +30,7 @@ video.upload_youtube(client_secrets=client_secrets)
 video.finish() # (could use compress=False to disable compression)
 '''
 
-from musicvideos.tools import exportvideo, check_if_url, compress_file
-from musicvideos.tools import download_image, download_audio
-from musicvideos.images import VideoImages
-from musicvideos.youtube import upload
-from musicvideos.audio import Audio
+from musicvideos import tools, images, youtube, audio_mod
 
 import shutil
 import os
@@ -154,8 +150,8 @@ class BuildVideo:
                 self.files['full_folder'] += f'/{self.files["folder"]}'
 
         # Download cover if it is a link otherwise copy it to the folder
-        if check_if_url(cover):
-            download_image(cover, output=self.files['download_cover'])
+        if tools.check_if_url(cover):
+            tools.download_image(cover, output=self.files['download_cover'])
             self.cover = self.files['download_cover']
         else:
             os.chdir(self.orig_dir)
@@ -167,9 +163,9 @@ class BuildVideo:
         self.cover = self.files['download_cover']
 
         # Download audio if it is a link otherwise copy it to the folder
-        if check_if_url(audio):
+        if tools.check_if_url(audio):
             self.url = audio
-            download_audio(audio, output=self.files['download_audio'])
+            tools.download_audio(audio, output=self.files['download_audio'])
             self.audio = self.files['download_audio']
         else:
             self.url = ''
@@ -177,22 +173,26 @@ class BuildVideo:
             shutil.copyfile(audio,
                         f'{self.files["full_folder"]}/{self.files["download_audio"]}')
             os.chdir(self.files['full_folder'])
+            self.audio = self.files['download_audio']
+            dot_location = self.audio.rfind('.')
+            audio_extension = self.audio[dot_location:]
+            if audio_extension != '.wav':
+                tools.convert_to_wav(self.audio)
 
-        self.audio = self.files['download_audio']
 
     def custom_toptext(self, text):
         self.toptext_and = f'({text})'
         self.toptext_plus = f'({text})'
 
     def export_images(self):
-        images = VideoImages(cover=self.cover)
-        images.main(toptext=self.toptext_plus, song=self.song,
+        video_images = images.VideoImages(cover=self.cover)
+        video_images.main(toptext=self.toptext_plus, song=self.song,
                     artist=self.artists[0], output=self.files['main_image'])
-        images.thumbnail(output=self.files['thumb_image'])
+        video_images.thumbnail(output=self.files['thumb_image'])
         print('\033[92m✔ Finished export_images process\033[0m')
 
     def export_audio(self):
-        audio = Audio(self.audio)
+        audio = audio_mod.Audio(self.audio)
         if self.speed != 0:
             audio.speed(self.speed)
         if self.reverb != 0:
@@ -201,7 +201,7 @@ class BuildVideo:
         print('\033[92m✔ Finished export_audio process\033[0m')
 
     def export_video(self):
-        exportvideo(image=self.files['main_image'], audio=self.files['mod_audio'],
+        tools.exportvideo(image=self.files['main_image'], audio=self.files['mod_audio'],
                     output=self.files['video_file'])
         print('\033[92m✔ Finished export_video process\033[0m')
 
@@ -217,7 +217,7 @@ class BuildVideo:
             tags.append(i)
             description += f'{i}\n'
         os.chdir(os.path.dirname(client_secrets))
-        upload(
+        youtube.upload(
             client_secrets=client_secrets,
             video_file=f'{self.files["full_folder"]}/{self.files["video_file"]}',
             thumbnail=f'{self.files["full_folder"]}/{self.files["thumb_image"]}',
@@ -231,7 +231,16 @@ class BuildVideo:
 
     def finish(self, compress=True):
         if compress:
-            compress_file(f'{self.files["full_folder"]}/{self.files["mod_audio"]}')
-            compress_file(f'{self.files["full_folder"]}/{self.files["download_audio"]}')
+            tools.compress_file(f'{self.files["full_folder"]}/{self.files["mod_audio"]}')
+            tools.compress_file(f'{self.files["full_folder"]}/{self.files["download_audio"]}')
         os.chdir(self.orig_dir)
         print('\033[92m✔ Finished\033[0m')
+
+
+video = BuildVideo(song='a', artists='artists', audio='https://youtu.be/iVnx0A2H22w',
+            cover='https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F1.bp.blogspot.com%2F-aoxPsXlLa24%2FWmZPxno6STI%2FAAAAAAAABqY%2FmQnVTMZhY00kWDeBSg0c70_hlspH58NSQCLcBGAs%2Fs1600%2FTHE%252BFIVE%252BSENSES.png&f=1&nofb=1', speed='-5', reverb='3')
+# (can use video.custom_toptext('text') to change the top text)
+video.export_audio()
+video.export_images()
+video.export_video()
+video.finish() # (could use compress=False to disable compression)
