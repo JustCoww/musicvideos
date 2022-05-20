@@ -1,4 +1,9 @@
 from moviepy.editor import AudioFileClip, ImageClip
+import logging
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO, format='\033[92;1m| INFO | \033[0m%(message)s')
+
 def exportvideo(image=None, audio=None, output='video.mp4'):
     '''
     This function will create a video
