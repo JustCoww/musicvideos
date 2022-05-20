@@ -237,12 +237,3 @@ class BuildVideo:
             tools.compress_file(f'{self.files["full_folder"]}/{self.files["download_audio"]}')
         os.chdir(self.orig_dir)
         print('\033[92m✔ Finished\033[0m')
-
-
-video = BuildVideo(song='a', artists='artists', audio='https://youtu.be/iVnx0A2H22w',
-            cover='https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F1.bp.blogspot.com%2F-aoxPsXlLa24%2FWmZPxno6STI%2FAAAAAAAABqY%2FmQnVTMZhY00kWDeBSg0c70_hlspH58NSQCLcBGAs%2Fs1600%2FTHE%252BFIVE%252BSENSES.png&f=1&nofb=1', speed='-5', reverb='3')
-# (can use video.custom_toptext('text') to change the top text)
-video.export_audio()
-video.export_images()
-video.export_video()
-video.finish() # (could use compress=False to disable compression)
