@@ -119,7 +119,7 @@ def compress_file(audio):
     remove(audio)
 
 
-def convert_to_wav(audio):
+def convert(audio):
     '''
     This function will get a file
     and convert it to wav, then it will delete
