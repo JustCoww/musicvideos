@@ -176,7 +176,7 @@ class BuildVideo:
                         f'{self.files["full_folder"]}/{self.files["download_audio"]}')
             os.chdir(self.files['full_folder'])
             if audio_extension != '.wav':
-                tools.convert_to_wav(self.audio, self.files['download_audio'])
+                tools.convert(self.audio, self.files['download_audio'])
             self.audio = self.files['download_audio']
             
 
