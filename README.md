@@ -45,7 +45,7 @@ https://soundcloud.com/100gecs/gecgecgec
 
 **Making the audio faster and adding reverb**
 ```python
-from musicvideos.audio import AudioMod
+from musicvideos.audio_mod import Audio
 
 aud = Audio('gecgecgec.wav')
 aud.speed(7)
