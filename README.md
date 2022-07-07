@@ -69,7 +69,7 @@ vid.main(toptext='(Sloowed + Reeeverb)', song='gecgecgec', artist='100 gecs')
 ```python
 from musicvideos.video import VideoImages
 
-vid = VideoImages(covere='gec.jpg')
+vid = VideoImages(cover='gec.jpg')
 vid.thumbnail()
 ```
 ![thumbnail](https://user-images.githubusercontent.com/68345611/164984372-e5c687b0-fab3-41c7-ae52-fc0e9d1959e4.png)
