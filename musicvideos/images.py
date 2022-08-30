@@ -143,7 +143,7 @@ class VideoImages:
 
         # Layout is [text, y-coordinates (from top), font, font-size]
         logger.debug('Setting up text things (text, y-coordinates, font, font-size)...')
-        toptext_t = [toptext, 245, 'toptext.ttf', 265]
+        toptext_t = [toptext, 300, 'toptext.ttf', 250]
         song_t = [song, 3250, 'down1.ttf', 279]
         artist_t = [artist, 3640, 'down2.ttf', 186]
 
